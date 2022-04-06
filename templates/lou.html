@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>黄鹤楼</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+        <link rel="stylesheet" href="../static/ourword.css">
+
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 25px;">
+  <legend>黄鹤楼词云图</legend>
+</fieldset>
+ <ul class="goods" style="height:550px;margin-left:400px">
+					<li >
+                        <div >
+<!--    <img src="{{ url_for('static',filename='/img/黄鹤楼mask.jpg') }}">-->
+                        <div style="margin:0 0 50px 0;">
+                            <img src="static/img/黄鹤楼评论词云.jpg"  width="500" height="550">
+                        </div>
+
+                        </div>
+
+					</li>
+                         <div style="margin:480px 50px">
+                             <a href = '/selfword' class="layui-btn layui-btn-lg" >自定义词云</a>
+                            <div onclick="return MsgBox()" style="margin-top:10px">
+                                <a href = '/updatewc' class="layui-btn layui-btn-lg">更新</a>
+                            </div>
+                         </div>
+
+</body>
+</html>
+
+
+<script language="javascript">
+function MsgBox() //声明标识符
+{
+alert("大约需要1至2分钟，接受请点击确定"); //弹出对话框
+}
+</script>

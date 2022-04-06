@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义词云</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+</head>
+<body>
+
+<!-- <form action = "http://127.0.0.1:5000/show2" method = "post">-->
+
+<!--      <p><input type="text" name="txt1"/></p>-->
+<!--      <p><input type="text" name="txt2"/></p>-->
+<!--      <p><input type="text" name="txt3"/></p>-->
+<!--      <p><input type="text" name="txt4"/></p>-->
+<!--      <p><input type="text" name="txt5"/></p>-->
+<!--      <p><input type="submit" value ="确定"/></p>-->
+
+<!--   </form>-->
+
+<form class="layui-form" action="http://127.0.0.1:5000/show2" method = "post" style="margin-top:20px">
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:20px">评论1：</label>
+    <div class="layui-input-block">
+      <input type="text" name="txt1" required  lay-verify="required" placeholder="请输入评论1" autocomplete="off" class="layui-input" style="width:300px">
+    </div>
+  </div>
+
+   <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:20px">评论2：</label>
+    <div class="layui-input-block">
+      <input type="text" name="txt2" required  lay-verify="required" placeholder="请输入评论2" autocomplete="off" class="layui-input" style="width:300px">
+    </div>
+  </div>
+
+      <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:20px">评论3：</label>
+    <div class="layui-input-block">
+      <input type="text" name="txt3" required  lay-verify="required" placeholder="请输入评论3" autocomplete="off" class="layui-input" style="width:300px">
+    </div>
+  </div>
+
+      <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:20px">评论4：</label>
+    <div class="layui-input-block">
+      <input type="text" name="txt4" required  lay-verify="required" placeholder="请输入评论4" autocomplete="off" class="layui-input" style="width:300px">
+    </div>
+  </div>
+
+      <div class="layui-form-item">
+    <label class="layui-form-label" style="font-size:20px">评论5：</label>
+    <div class="layui-input-block">
+      <input type="text" name="txt5" required  lay-verify="required" placeholder="请输入评论5" autocomplete="off" class="layui-input" style="width:300px">
+    </div>
+  </div>
+
+
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+    </div>
+  </div>
+</form>
+
+</body>
+</html>

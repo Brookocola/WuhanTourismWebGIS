@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body,
+        html,
+        #allmap {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=aDgPHW92zhiGbbGBROPDvsQb"></script>
+    <script type="text/javascript" src="static/js/d3.min.js"></script>
+
+    <title>地图标点保存</title>
+   <link rel="stylesheet" href="../static/layui/css/layui.css">
+</head>
+
+<body>
+
+    <div id="selectPhoto" class="">
+
+        <ul>
+            <li style="list-style-type:none;">
+                <p>请输入城市：<input id="txtSearch" type="text" value="武汉" /><input type="button" value="GO"
+                        onclick="search()" class="layui-btn layui-btn-xs" />&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;<input type="button" value="隐藏本区域"
+                        onclick="hideme()" class="layui-btn layui-btn-xs"><input type="button" value="查看过去点" onclick="showpast()" class="layui-btn layui-btn-xs"></p>
+
+            </li>
+
+           <li style="list-style-type:none;">
+                <a href="javascript:void(0);" onclick="changePic(1)"><img src="static/img/Icy.png"
+                        class="sp_s sp_12"></a>
+                <em>
+                    美食点
+                </em>&#12288;&#12288;&#12288;&#12288;
+
+                <a href="javascript:void(0);" onclick="changePic(2)"><img src="static/img/Irj.png"
+                        class="sp_s sp_13"></a>
+                <em>
+                    故事点</em>&#12288;&#12288;&#12288;&#12288;
+
+                <a href="javascript:void(0);" onclick="changePic(3)"><img src="static/img/Ilp.png"
+                        class="sp_s sp_14"></a>
+                <em>
+                    纪念品</em>&#12288;&#12288;&#12288;&#12288;&#12288;
+
+                <a href="javascript:void(0);" onclick="changePic(4)"><img src="static/img/Ipz.png"
+                        class="sp_s sp_15"></a>
+                <em>
+                    拍照点</em>&#12288;&#12288;&#12288;&#12288;&#12288;
+
+                <a href="javascript:void(0);" onclick="changePic(5)"><img src="static/img/Ijd.png"
+                        class="sp_s sp_16"></a>
+                <em>
+                    游览点</em>&#12288;&#12288;&#12288;&#12288;&#12288;
+
+                
+                    &#12288;&#12288;<textarea rows="3" cols="80" id="pinglun">写下你的评论吧！</textarea>
+               
+                <!--空白占位-->
+                &#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;
+
+
+            </li>
+
+            <li style="list-style-type:none;">
+                <a  href="javascript:void(0);" onclick="hide(1)"><img border="0" src="static/img/hide.png"
+                        title="隐藏" /></a>|<a  href="javascript:void(0);" onclick="show(1)"><img
+                        border="0" src="static/img/show.png" title="显示" /></a>&#12288;&#12288;&#12288;&#12288;&#12288;
+                <a  href="javascript:void(0);" onclick="hide(2)"><img border="0" src="static/img/hide.png"
+                        title="隐藏" /></a>|<a href="javascript:void(0);"  onclick="show(2)"><img
+                        border="0" src="static/img/show.png" title="显示" /></a>&#12288;&#12288;&#12288;&#12288;
+                <a  href="javascript:void(0);" onclick="hide(3)"><img border="0" src="static/img/hide.png"
+                        title="隐藏" /></a>|<a href="javascript:void(0);"  onclick="show(3)"><img
+                        border="0" src="static/img/show.png" title="显示" /></a>&#12288;&#12288;&#12288;&#12288;&#12288;
+
+                <a  href="javascript:void(0);" onclick="hide(4)"><img border="0" src="static/img/hide.png"
+                        title="隐藏" /></a>|<a href="javascript:void(0);"  onclick="show(4)"><img
+                        border="0" src="static/img/show.png" title="显示" /></a>&#12288;&#12288;&#12288;&#12288;&#12288;
+                <a  href="javascript:void(0);" onclick="hide(5)"><img border="0" src="static/img/hide.png"
+                        title="隐藏" /></a>|<a href="javascript:void(0);"  onclick="show(4)"><img
+                        border="0" src="static/img/show.png" title="显示" /></a>
+                        
+
+            </li>
+
+
+
+    </div>
+    <div id="allmap"></div>
+<script src="static/logassets/js/jquery.js"></script>
+
+</body>
+
+</html>
+<script type="text/javascript">
+        var I1="static/img/Icy.png";
+        var I2="static/img/Irj.png";
+        var I3="static/img/Ilp.png";
+        var I4="static/img/Ijd.png";
+        var I5="static/img/Ipz.png";
+function showpast() {
+        $.post(
+            "http://127.0.0.1:5000/api/getComment",
+            {
+
+            },
+            function (data, textStatus, jqXHR) {
+                for (i = 0; i < data.length; i++) {
+
+            var marker = new BMap.Marker(new BMap.Point(data[i].poi_lng, data[i].poi_lat));
+            var icon = new BMap.Icon(data[i].poi_img, new BMap.Size(30, 50)); //显示图标大小
+            marker.setIcon(icon);//设置标签的图标为自定义图标
+            marker.setLabel(new BMap.Label(data[i].poi_pl, { offset: new BMap.Size(10, -20) }));
+            map.addOverlay(marker);
+            marker.addEventListener('rightclick', function (e) {
+                var msg = "您真的确定要删除这个标注吗？请确认！";
+                if (confirm(msg) == true) {
+                    map.removeOverlay(this);
+                } else {
+                    return false;
+                }
+                });
+                }
+
+
+        },
+            "json"
+        )
+    }
+
+
+
+
+
+
+
+
+
+    var imk = 1;
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");    // 创建Map实例
+    
+
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+    var lng , lat ;
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            lng = r.point.lng;
+            lat = r.point.lat;
+            map.centerAndZoom(new BMap.Point(lng, lat), 11);
+            var mk = new BMap.Marker(r.point);
+            map.addOverlay(mk);
+          }
+          else {
+            alert('failed'+this.getStatus());
+          }
+       });
+    map.addEventListener("click", function (e) {//地图单击事件
+        //alert(e.point.lng + ", " + e.point.lat);
+        //document.getElementById("lonlat").value = e.point.lng + ", " + e.point.lat;
+        var icons = "image/child/red.png"; //这个是你要显示坐标的图片的相对路径
+        var Label = "empty";
+        var I1="static/img/Icy.png";
+        var I2="static/img/Irj.png";
+        var I3="static/img/Ilp.png";
+        var I4="static/img/Ijd.png";
+        var I5="static/img/Ipz.png";
+
+        if (imk == 1) { icons = I1; Label = 1 }
+        if (imk == 2) { icons = I2; Label = 2 }
+        if (imk == 3) { icons = I3; Label = 3 }
+        if (imk == 4) { icons =I5; Label = 4 }
+        if (imk == 5) { icons = I4; Label = 5 }
+        var marker = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat));
+       
+        var icon = new BMap.Icon(icons, new BMap.Size(30, 50)); //显示图标大小
+        marker.setIcon(icon);//设置标签的图标为自定义图标
+        
+        map.addOverlay(marker);
+        marker.setLabel(new BMap.Label(document.getElementById("pinglun").value, { offset: new BMap.Size(10, -20) }));
+       
+$.post(
+            "http://127.0.0.1:5000/api/addComment",
+            {
+                poi_lng: e.point.lng,
+                poi_lat: e.point.lat,
+                poi_pl: document.getElementById("pinglun").value,
+                poi_img: icons,
+            },
+            function (data, textStatus, jqXHR) { },
+            "json");
+        marker.addEventListener('rightclick', function (e) {
+
+            var msg = "您真的确定要删除这个标注吗？请确认！";
+            if (confirm(msg) == true) {
+                map.removeOverlay(this);
+            } else {
+                return false;
+            }
+
+        });
+
+        
+    });
+    //城市检索
+    var city = new BMap.LocalSearch(map, {
+        renderOptions: {
+            map: map,
+            autoViewport: true
+        }
+    });
+
+    function search() {
+        var s = document.getElementById("txtSearch").value;
+        city.search(s);
+    }
+    //---------------------------------------------自定义控件---------------------------------------------  
+    function addMyControl() {
+        // 定义一个控件类,即function  
+        function ZoomControl() {
+            // 默认停靠位置和偏移量  
+            this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
+            this.defaultOffset = new BMap.Size(10, 10);
+        }
+
+        // 通过JavaScript的prototype属性继承于BMap.Control  
+        ZoomControl.prototype = new BMap.Control();
+
+        // 自定义控件必须实现自己的initialize方法,并且将控件的DOM元素返回  
+        // 在本方法中创建个div元素作为控件的容器,并将其添加到地图容器中  
+        ZoomControl.prototype.initialize = function (map) {
+            // 创建一个DOM元素  
+            var div = document.createElement("div");
+            // 添加文字说明  
+            //div.appendChild(document.createTextNode("openEdit"));  
+            div.innerHTML = "<img src=\"static/img/dropdown.jpg\" />"
+            // 设置样式  
+            div.style.cursor = "pointer";
+            div.style.border = "1px solid gray";
+            div.style.backgroundColor = "white";
+            // 绑定事件  
+            div.onclick = function (e) {
+                document.getElementById("selectPhoto").style.display = "Block";
+                map.removeControl(this);
+            }
+            // 添加DOM元素到地图中  
+            map.getContainer().appendChild(div);
+            // 将DOM元素返回  
+            return div;
+        }
+        // 创建控件  
+        var myZoomCtrl = new ZoomControl();
+        // 添加到地图当中  
+        map.addControl(myZoomCtrl);
+    }
+    //---------------------------------------------自定义控件---------------------------------------------  
+    function show(k) {
+        var allOverlay = map.getOverlays();
+
+        for (var i = 0; i < allOverlay.length; i++) {
+            var I1="static/img/Icy.png";
+        var I2="static/img/Irj.png";
+        var I3="static/img/Ilp.png";
+        var I4="static/img/Ijd.png";
+        var I5="static/img/Ipz.png";
+            if (allOverlay[i].toString() == "[object Marker]") {
+                var d = allOverlay[i].getIcon();
+                if (k == 1 && d.imageUrl == I1) {
+                    allOverlay[i].show();
+                }
+                if (k == 2 && d.imageUrl == I2) {
+                    allOverlay[i].show();
+                }
+
+                if (k == 3 && d.imageUrl == I3) {
+                    allOverlay[i].show();
+                }
+
+                if (k == 4 && d.imageUrl == I5) {
+                    allOverlay[i].show();
+                }
+
+                if (k == 5 && d.imageUrl == I4) {
+                    allOverlay[i].show();
+                }
+
+                if (k == 0) {
+                    allOverlay[i].show();
+                }
+
+            }
+        }
+    }
+   
+    
+    function hideme() {
+        document.getElementById("selectPhoto").style.display = "None";
+        addMyControl();
+    }
+    function showEdit() {
+        document.getElementById("selectPhoto").style.display = "Block";
+        document.getElementById("out").style.display = "none";
+    }
+    function hide(k) {
+        var I1="static/img/Icy.png";
+        var I2="static/img/Irj.png";
+        var I3="static/img/Ilp.png";
+        var I4="static/img/Ijd.png";
+        var I5="static/img/Ipz.png";
+        var allOverlay = map.getOverlays();
+
+        for (var i = 0; i < allOverlay.length; i++) {
+            if (allOverlay[i].toString() == "[object Marker]") {
+                var d = allOverlay[i].getIcon();
+                if (k == 1 && d.imageUrl == I1) {
+                    allOverlay[i].hide();
+                }
+                if (k == 2 && d.imageUrl == I2) {
+                    allOverlay[i].hide();
+                }
+
+                if (k == 3 && d.imageUrl == I3) {
+                    allOverlay[i].hide();
+                }
+
+                if (k == 4 && d.imageUrl == I5) {
+                    allOverlay[i].hide();
+                }
+
+                if (k == 5 && d.imageUrl == I4) {
+                    allOverlay[i].hide();
+                }
+            }
+        }
+    }
+    function changePic(k) {
+        if (k == 1) {
+            imk = 1;
+        }
+        if (k == 2) {
+            imk = 2;
+        }
+        if (k == 3) {
+            imk = 3;
+        }
+        if (k == 4) {
+            imk = 4;
+        }
+        if (k == 5) {
+            imk = 5;
+        }
+    }
+</script>

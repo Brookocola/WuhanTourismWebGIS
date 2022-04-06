@@ -1,0 +1,19 @@
+html{height:100%}    
+body{height:100%;margin:0px;padding:0px}    
+#container{height:100%}
+#driving_way{
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    width: 270px;
+    height: 450px;
+    background: #fff;
+    box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+    border-radius: 7px;
+    z-index: 99;
+    padding: 10px
+}
+#r-result{
+    height: 400px;
+    overflow-y: auto;
+}

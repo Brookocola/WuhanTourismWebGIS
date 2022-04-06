@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 外部引用css和js文件 -->
+    <link rel="stylesheet" href="static/baiduassets/css/Baidu.css">
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <script src="static/baiduassets/js/Baidu.js"></script>
+    <!-- 调用百度api -->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=CX3Q0UwdWgdXvS29QSgeLM5y4d9DBnc9"></script>
+</head>
+<body onload="init()" >
+    <header>
+        <label for="start">起点:<input type="text" placeholder="请输入起点" class="typein" id="start"/></label>
+        <label for="end">终点:<input type="text" placeholder="请输入终点" class="typein" id="end"/></label>
+        <label for="place">添加点<input type="text" name="place" id="place"></label>
+        <button id="add_place" onclick="Add_place()" class="layui-btn layui-btn-xs">添加点</button>
+        <button id="optimize_route" onclick="Route_optimize()" class="layui-btn layui-btn-xs">路径优化</button>
+    </header>
+    
+    <div id="container"></div>
+    <div id="driving_way">
+        <button id='search_walking' onclick="WalkingQuery()" class="layui-btn layui-btn-xs">步行查询</button>
+        <button id='search_driving' onclick="DrivingQuery()" class="layui-btn layui-btn-xs">驾车查询</button>
+        <button id="search_bus" onclick="BusQuery()" class="layui-btn layui-btn-xs">公交查询</button>
+        <p id='r-result'></p>
+	</div>
+</body>
+</html>
